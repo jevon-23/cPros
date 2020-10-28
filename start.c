@@ -12,14 +12,14 @@
 void produce(char *fileName, int value) {
   FILE *theFile = fopen(fileName, "w");
   if (value == 1) {
-    char thestr[] = "nothing to do here.\n";
-    for (int x = 0; thestr[x] != '.'; x++) {
+    char thestr[] = "nothing to do here. Printing this for a reminder everytime that this is not necessary. Delete this line in the file lmao. \n";
+    for (int x = 0; thestr[x] != NULL; x++) {
       fputc(thestr[x], theFile);
     }
   }
   if (value == 2) {
-    char thestr1[] = "public class -";
-    for (int x = 0; thestr1[x] != '-'; x++) {
+    char thestr1[] = "public class ";
+    for (int x = 0; thestr1[x] != NULL; x++) {
       fputc(thestr1[x], theFile);
     }
     char *point = fileName;
@@ -30,30 +30,35 @@ void produce(char *fileName, int value) {
       }
       fputc(point[x], theFile);
     }
-    char thestr2[] = " { \n}";
-    for (int x = 0; thestr2[x] != '}'; x++) {
+    char thestr2[] = " {\n";
+    for (int x = 0; thestr2[x] != NULL; x++) {
       fputc(thestr2[x], theFile);
     }
-    char thestr3[] = "  public static void main(String args[]) {\n  }";
-    for (int x = 0; thestr3[x] != '}'; x++) {
+    char thestr3[] = "  public static void main(String args[]) {\n  }\n}";
+    for (int x = 0; thestr3[x] != NULL; x++) {
       fputc(thestr3[x], theFile);
     }
-    fputc('}', theFile);
-    fputc('\n', theFile);
-    fputc('}', theFile);
+    //fputc('}', theFile);
+    //fputc('\n', theFile);
+    //fputc('}', theFile);
     fputc('\n', theFile);
 
 
     //We need to save all of the values of the name of the file in order to make a new class, will do this another time
     return;
   }
-  if (value == 3) {
-    char thestr[] = "int main(int arg, char[] *argv) {\n}";
-    for (int x = 0; thestr[x] != '}'; x++) {
+    if (value == 3) {
+        char thestr2[] = "//This allows us to print\n#include <stdio.h>\n";
+        for (int x = 0; thestr2[x] != NULL; x++) { //If this doesnt work then we will have to put ">", and fput after
+            fputc(thestr2[x], theFile);
+        }
+
+    char thestr[] = "int main(int arg, char *argv[]) {\n}\n";
+    for (int x = 0; thestr[x] != NULL; x++) {
       fputc(thestr[x], theFile);
     }
-    fputc('}', theFile);
-    fputc('\n', theFile);
+    //fputc('}', theFile);
+    //fputc('\n', theFile);
   }
   fclose(theFile);
   return;
