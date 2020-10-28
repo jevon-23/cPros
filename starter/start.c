@@ -38,13 +38,7 @@ void produce(char *fileName, int value) {
     for (int x = 0; thestr3[x] != NULL; x++) {
       fputc(thestr3[x], theFile);
     }
-    //fputc('}', theFile);
-    //fputc('\n', theFile);
-    //fputc('}', theFile);
     fputc('\n', theFile);
-
-
-    //We need to save all of the values of the name of the file in order to make a new class, will do this another time
     return;
   }
     if (value == 3) {
@@ -57,8 +51,6 @@ void produce(char *fileName, int value) {
     for (int x = 0; thestr[x] != NULL; x++) {
       fputc(thestr[x], theFile);
     }
-    //fputc('}', theFile);
-    //fputc('\n', theFile);
   }
   fclose(theFile);
   return;
@@ -70,11 +62,11 @@ int processCLI(int argc, char **argv, char **filename)
 if (argc != 2) {
   printf("usage: %s filename\n",argv[0]);
   printf("Pls pass in a file\n");
-  printf("failed");
+
   exit(-1);
 }
   *filename = argv[1];
-  //printf("%c", *filename[0]);
+  
   int x, suff, thestrcount;
   char thestr[4];
   char p, j, c, per;
@@ -114,6 +106,6 @@ int main(int arg, char *argv[]) {
 
   }
   produce(file, val);
-  //printf("hello");
+
   return 0;
 }
