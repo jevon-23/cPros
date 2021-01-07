@@ -66,9 +66,8 @@ if (argc != 2) {
   exit(-1);
 }
   *filename = argv[1];
-  
+
   int x, suff, thestrcount;
-  char thestr[4];
   char p, j, c, per;
   p = 'p';
   j = 'j';
@@ -106,6 +105,7 @@ int main(int arg, char *argv[]) {
 
   }
   produce(file, val);
+  printf("process finished");
 
   return 0;
 }
