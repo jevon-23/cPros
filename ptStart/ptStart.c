@@ -9,7 +9,7 @@
 
 void process(char *filename) {
   FILE *theFile = fopen(filename, "w");
-  char thestr[] =  "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\nimport torch.optim as optim\nclass Net(nn.Module):\n      def __init__(self):\n         super(Net, self).__init__()\n         def forward(self, x):";
+  char thestr[] =  "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\nimport torch.optim as optim\nclass Net(nn.Module):\n    def __init__(self):\n        super(Net, self).__init__()\n\n    def forward(self, x):\n        #fill in\n        x = 1\n";
   for (int x = 0; thestr[x] != NULL; x++) {
     fputc(thestr[x], theFile);
   }
