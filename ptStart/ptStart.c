@@ -3,10 +3,6 @@
 
 // @author Jevon Jackson
 
-// val == 1 == .py file
-//val == 2 == .java file
-//val == 3 == .c file
-
 void process(char *filename) {
   FILE *theFile = fopen(filename, "w");
   char thestr[] =  "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\nimport torch.optim as optim\nimport torchvision\nimport numpy as np\nclass Net(nn.Module):\n    def __init__(self):\n        super(Net, self).__init__()\n\n    def forward(self, x):\n        #fill in\n        x = 1\n";
@@ -18,32 +14,44 @@ void process(char *filename) {
 
 int processCLI(int argc, char ** argv, char ** filename) {
   if (argc != 2) {
-    printf("usage: %s filename\n",argv[0]);
-    printf("Pls pass in a file\n");
-    exit(-1);
+    return -1;
   }
 
   *filename = argv[1];
   int sufc = 0;
-  char p = 'p';
-  char y = 'y';
-  char per = '.';
-  char *point = *filename;
+  int failed = 0;
+  char *point = argv[1];
 
-  for (int x = 0; x < 100; x++) {
-    if (sufc == 0 && point[x] == per) {
-      sufc++;
-    }
-    if (sufc == 1 && point[x] == p) {
+//If i ever come back to this, please remember that there is actually a string.split in c,
+//Using it inside of start.c for reference if needed
+  for (int x = 0; point[x] != NULL; x++) {
+    switch(point[x]) {
+      case '.':
+        sufc++;
+        break;
 
-      sufc++;
+      case 'p':
+        if (sufc != 0) {
+          sufc++ ? sufc == 1 : failed++;
+        }
+        break;
+
+      case 'y':
+        if (sufc != 0) {
+          sufc++ ? sufc == 2 : failed++;
+        }
+        break;
     }
-    if (sufc == 2 && point[x] == y) {
-      sufc++;
-      return 1;
+
+    if (sufc == 3 || failed) {
+      break;
     }
   }
-  return -1;
+
+  if (sufc != 3 || failed) {
+    return -1;
+  }
+  return 0;
 }
 
 int main(int arg, char *argv[]) {
@@ -52,13 +60,11 @@ int main(int arg, char *argv[]) {
 
   if (val == -1) {
     printf("usage: %s filename\n",argv[0]);
-    printf("pls pass in a file w type .py,");
-    return -1;
+    printf("pls pass in a file w type .py.\n");
+    exit(-1);
     }
 
   process(file);
-
-  printf("finished process");
-
+  printf("finished process\n");
   return 0;
 }

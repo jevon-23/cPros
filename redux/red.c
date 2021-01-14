@@ -8,6 +8,7 @@ int putFiles() {
   int dir = mkdir("./redux", 0777);
   if (dir != 0) {
     printf("could not create directory");
+    return -1;
   };
   char *files[5] = {"./redux/action.js", "./redux/index.js", "./redux/reducer.js", "./redux/actionTypes.js", "./redux/store.js"};
   for (int x = 0; x <= 4; x++) {

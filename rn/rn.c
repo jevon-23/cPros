@@ -21,39 +21,36 @@ void processCLI(int argc, char **argv, char **filename) {
     exit(-1);
   }
   char *file = argv[1];
-  char per = '.';
-  char j = 'j';
-  char s = 's';
   int counter = 0;
   int failed = 0;
+  //Split this string w/ sting.split whenevr you rememnber
   for (int x = 0; file[x] != NULL; x++) {
     switch(file[x]) {
       case '.':
-        printf("hit0, %c", file[x]);
-        counter++;
+        counter++ ? counter == 0 : failed++;
         break;
+
       case 'j':
-        if (counter == 0) {
-          break;
+        if (counter != 0) {
+          counter++ ? counter == 1 : failed++;
         }
-        counter++ ? counter == 1 : failed++;
         break;
+
       case 's':
-      if (counter == 0) {
-        break;
-      }
-        counter++ ? counter == 2 : failed++;
+        if (counter != 0) {
+          counter++ ? counter == 2 : failed++;
+        }
         break;
     }
-    if (counter == 3) {
+
+    if (counter == 3 || failed != 0) {
       break;
     }
 
-
   }
   printf("counter = %d\n", counter);
-  if (failed != 0 || counter != 3) {
-    printf("please pass in file of type .js, counter = %d, failed = %d", counter, failed);
+  if (failed || counter != 3) {
+    printf("please pass in file of type .js");
     exit(-1);
   }
   *filename = argv[1];
@@ -62,7 +59,6 @@ void processCLI(int argc, char **argv, char **filename) {
 int main(int arg, char *argv[]) {
   char *filename;
   processCLI(arg, argv, &filename);
-
   produce(filename);
   printf("process finished\n");
   return 0;
