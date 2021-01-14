@@ -111,7 +111,7 @@ int main(int arg, char *argv[]) {
 
   }
   produce(file, val);
-  printf("process finished");
+  printf("process finished\n");
 
   return 0;
 }
