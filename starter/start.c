@@ -42,7 +42,7 @@ void produce(char *fileName, int value) {
     return;
   }
     if (value == 3) {
-        char thestr2[] = "//This allows us to print\n#include <stdio.h>\n";
+        char thestr2[] = "//This allows us to print\n#include <stdio.h>\n#include <stdlib.h>\n\n";
         for (int x = 0; thestr2[x] != NULL; x++) { //If this doesnt work then we will have to put ">", and fput after
             fputc(thestr2[x], theFile);
         }
@@ -52,7 +52,7 @@ void produce(char *fileName, int value) {
       fputc(thestr[x], theFile);
     }
 
-    char thestr3[] = "int processCLI(int argc, char **argv, char **filename) {\n  if (argc != 2) {\n    printf(\"usage:\");\n    exit(-1);\n  }\n}\n";
+    char thestr3[] = "int processCLI(int argc, char **argv, char **filename) {\n  if (argc != 2) {\n    printf(\"usage:\");\n    exit(-1);\n  }\n  return 0;\n}\n";
     for (int x = 0; thestr3[x] != NULL; x++) {
       fputc(thestr3[x], theFile);
     }
