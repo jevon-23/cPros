@@ -48,7 +48,7 @@ void processCLI(int argc, char **argv, char **filename) {
     }
 
   }
-  printf("counter = %d\n", counter);
+
   if (failed || counter != 3) {
     printf("please pass in file of type .js");
     exit(-1);
