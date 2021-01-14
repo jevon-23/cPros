@@ -51,6 +51,11 @@ void produce(char *fileName, int value) {
     for (int x = 0; thestr[x] != NULL; x++) {
       fputc(thestr[x], theFile);
     }
+
+    char thestr3[] = "int processCLI(int argc, char **argv, char **filename) {\n  if (argc != 2) {\n    printf(\"usage:\");\n    exit(-1);\n  }\n}\n";
+    for (int x = 0; thestr3[x] != NULL; x++) {
+      fputc(thestr3[x], theFile);
+    }
   }
   fclose(theFile);
   return;
