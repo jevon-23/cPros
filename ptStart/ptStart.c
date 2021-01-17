@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // @author Jevon Jackson
 
-void process(char *filename) {
+// Input data into the file
+void producePT(char *filename) {
+  // Opening the file and putting the imports into it.
   FILE *theFile = fopen(filename, "w");
   char thestr[] =  "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\nimport torch.optim as optim\nimport torchvision\nimport numpy as np\nclass Net(nn.Module):\n    def __init__(self):\n        super(Net, self).__init__()\n\n    def forward(self, x):\n        #fill in\n        x = 1\n";
   for (int x = 0; thestr[x] != NULL; x++) {
@@ -12,59 +15,45 @@ void process(char *filename) {
   fclose(theFile);
 }
 
+// Checks to see if the file that is passed in is of type .py
+// If it is, outputs 0 , otherwise outputs -1
 int processCLI(int argc, char ** argv, char ** filename) {
-  if (argc != 2) {
+
+    if (argc != 2) {
     return -1;
   }
 
-  *filename = argv[1];
-  int sufc = 0;
-  int failed = 0;
-  char *point = argv[1];
+  *filename = argv[1];  // Putting the filename into the 'filename' pointer
 
-//If i ever come back to this, please remember that there is actually a string.split in c,
-//Using it inside of start.c for reference if needed
-  for (int x = 0; point[x] != NULL; x++) {
-    switch(point[x]) {
-      case '.':
-        sufc++;
-        break;
+  // Getting the dot extension of the file. Checking to make sure that it is .py
+  char pointer[100];
+  strcpy(pointer, argv[1]);
+  char *point = pointer;
+  point = strtok(point, ".");
+  point = strtok(NULL, ".");
 
-      case 'p':
-        if (sufc != 0) {
-          sufc++ ? sufc == 1 : failed++;
-        }
-        break;
-
-      case 'y':
-        if (sufc != 0) {
-          sufc++ ? sufc == 2 : failed++;
-        }
-        break;
-    }
-
-    if (sufc == 3 || failed) {
-      break;
-    }
-  }
-
-  if (sufc != 3 || failed) {
+  // strcmp does not like one lined if statements, or i just dont know hwo to write them
+  if (strcmp(point, "py") == 0) {
+    return 0;
+  } else {
     return -1;
   }
-  return 0;
+
+
 }
 
+//Runs processCLI to make sure this is of the right dot extnesion.
+//Then runs process to write in to the file the imports and the basic set up of a nn
 int main(int arg, char *argv[]) {
   char* file;
-  int val = processCLI(arg, argv, &file);
-
+  int val = processCLI(arg, argv, &file); // Checking for file type
   if (val == -1) {
-    printf("usage: %s filename\n",argv[0]);
+    printf("\nusage: %s filename\n",argv[0]);
     printf("pls pass in a file w type .py.\n");
     exit(-1);
     }
 
-  process(file);
+  producePT(file);
   printf("finished process\n");
   return 0;
 }

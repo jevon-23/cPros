@@ -1,8 +1,10 @@
 //This allows us to print
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void produce(char *filename) {
+// Writes imports in to file
+int produceJS(char *filename) {
   FILE *file = fopen(filename, "w");
   char *str[2];
   str[0] = "import React, { useState, useEffect } from 'react';\n";
@@ -13,53 +15,29 @@ void produce(char *filename) {
       fputc(str[x][i], file);
     }
   }
-}
-
-void processCLI(int argc, char **argv, char **filename) {
-  if (argc != 2) {
-    printf("usage: %s filename", argv[0]);
-    exit(-1);
-  }
-  char *file = argv[1];
-  int counter = 0;
-  int failed = 0;
-  //Split this string w/ sting.split whenevr you rememnber
-  for (int x = 0; file[x] != NULL; x++) {
-    switch(file[x]) {
-      case '.':
-        counter++ ? counter == 0 : failed++;
-        break;
-
-      case 'j':
-        if (counter != 0) {
-          counter++ ? counter == 1 : failed++;
-        }
-        break;
-
-      case 's':
-        if (counter != 0) {
-          counter++ ? counter == 2 : failed++;
-        }
-        break;
-    }
-
-    if (counter == 3 || failed != 0) {
-      break;
-    }
-
-  }
-
-  if (failed || counter != 3) {
-    printf("please pass in file of type .js");
-    exit(-1);
-  }
-  *filename = argv[1];
-
-}
-int main(int arg, char *argv[]) {
-  char *filename;
-  processCLI(arg, argv, &filename);
-  produce(filename);
-  printf("process finished\n");
   return 0;
+}
+
+// Checks to see if the file has a .js extension
+int processCLIJS(int argc, char **argv, char **filename) {
+  if (argc != 2) {
+    return -1;
+
+}
+
+  // Getting file suffix
+  char pointer[100];
+  strcpy(pointer, argv[1]);
+  char *point = pointer;
+  point = strtok(point, ".");
+  point = strtok(NULL, ".");
+
+  // Comparing suffix to string
+  *filename = argv[1];
+  if (strcmp(point, "js") == 0) {
+    return 0;
+  } else {
+    return -1;
+  }
+
 }
