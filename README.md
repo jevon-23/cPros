@@ -1,5 +1,6 @@
 # cPros
 Small programs written in C, most of them are used to write imports and main methods into files. 
+Personally, I believe the best use of these functions is to use them as aliases. See https://www.tecmint.com/create-alias-in-linux/ for more.
 
 # User's help
 I implemented .sh files for almost all of the files, and its job is simply to run its respective c program and open up an ide.
