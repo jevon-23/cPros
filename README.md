@@ -7,7 +7,7 @@ Currently, these are are all dependent on my system, so if you would like to use
   1. If you are not using zsh for your bash, to run the .sh files you need to go into them change the bash to what yours is for the respective file.
 
 Also, if you want to run start.c on a zsh file
-  1. Update line 63 in start.c to your path: .../starter/sh_helper/helps.sh
+  1. Update line 63 in .../starter/start.c to your path: .../starter/sh_helper/helps.sh
   2. Update line 3 in .../starter/sh_helper/helps.sh to your bash. 
 
 # Future changes
