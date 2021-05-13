@@ -1,0 +1,4 @@
+
+
+#! /bin/zsh";  // .sh for zsh
+echo $1

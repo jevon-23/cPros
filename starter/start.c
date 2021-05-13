@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<string.h>
+#include<unistd.h>
 
 //Small program that simply fills in the headers of a file for the type an creates a main if needed for quick
 //Start up outside of terminal
@@ -10,51 +12,58 @@
 //val == 1 == .py file
 //val == 2 == .java file
 //val == 3 == .c file
+//val == 4 == .sh file
 void produceStart(char *fileName, int value, int arg, char *argv[]) {
   FILE *theFile = fopen(fileName, "w");
   int placeHold = 0;
 
-  int extra_imports = 1 ? arg == 2 : 0;
-
   switch(value) {
     case 1: placeHold++; // Python
-      char thestr[] = "nothing to do here. Printing this for a reminder everytime that this is not necessary. Delete this line in the file lmao. \n";
-      for (int x = 0; thestr[x] != NULL; x++) {
-        fputc(thestr[x], theFile);
+      char pyStr[] = "Will soon implement it so that it will instead take in a library, and we will input the imports to FILENAME \n";
+      for (int x = 0; pyStr[x] != NULL; x++) {
+        fputc(pyStr[x], theFile);
       }
       break;
 
     case 2: placeHold++;  // java
-      char *str[3];
-      str[0] = "public class ";
-      str[1] = strtok(fileName, ".");
-      str[2] = "{\n  public static void main(String args[]) {\n  }\n}\n";
+      char *javaStrs[3];
+      javaStrs[0] = "public class ";
+      javaStrs[1] = strtok(fileName, ".");
+      javaStrs[2] = "{\n  public static void main(String args[]) {\n  }\n}\n";
 
       for (int x = 0; x < 3; x++) {
-        for (int i = 0; str[x][i] != NULL; i++) {
-          fputc(str[x][i], theFile);
+        for (int i = 0; javaStrs[x][i] != NULL; i++) {
+          fputc(javaStrs[x][i], theFile);
 
         }
       }
       break;
 
     case 3: placeHold++;  // c
-      char *theStrs[3];
-      theStrs[0] = "#include <stdio.h>\n#include <stdlib.h>\n\n";
-      theStrs[1] = "int processCLI(int argc, char **argv, char **filename) {\n  if (argc != 2) {\n    printf(\"usage:\");\n    exit(-1);\n  }\n  return 0;\n}\n";
-      theStrs[2] = "int main(int arg, char *argv[]) {\n}\n";
+      char *cStrs[3];
+      cStrs[0] = "#include <stdio.h>\n#include <stdlib.h>\n\n";
+      cStrs[1] = "int processCLI(int argc, char **argv, char **filename) {\n  if (argc != 2) {\n    printf(\"usage:\");\n    exit(-1);\n  }\n  return 0;\n}\n";
+      cStrs[2] = "int main(int arg, char *argv[]) {\n}\n";
 
       for (int x = 0; x < 3; x++) {
-        for (int i = 0; theStrs[x][i] != NULL; i++) {
-          fputc(theStrs[x][i], theFile);
+        for (int i = 0; cStrs[x][i] != NULL; i++) {
+          fputc(cStrs[x][i], theFile);
         }
       }
       break;
 
-      case 4: placeHold++; //js
-        //currently do not have anything to do for this, so will just create the file
+      case 4: placeHold++; // .sh
 
+        // You cannot write directly to a .sh file, so insteade we are calling a .sh file that writes in the #!bin/zsh into my file.
+        // Going to update this later because im just procastinating studying for my last final lmao
+        // But if somebody random is using this before it is updated, a potential error is trying to run this with a differernt bash than zsh
+        // Sorry macos made me do it lol
 
+        char shArgs[100];
+        strcpy(shArgs,"~/programs/cpros/starter/sh_helper/helps.sh ");
+        system(strcat(shArgs, fileName));
+
+        break;
   }
 }
 
@@ -74,10 +83,10 @@ if (argc != 2) {
   point = strtok(NULL, ".");
 
   switch(point[0]) {
-    case 'p':
+    case 'p':  // .py
       return 1 ? point[1] == 'y' : -1;
 
-    case 'j': placeHold++;
+    case 'j': placeHold++;  // .java
       char java[] = "java";
       if (strcmp(point, java) == 0) {
         return 2;
@@ -85,13 +94,16 @@ if (argc != 2) {
         return -1;
       }
 
-    case 'c': placeHold++;
-      return 3; //Not sure how to check the rest of the string for this rn, cant
-      //Use point[1] cause of seg fault, tried using == w "", '', and NULL,
-      // '\0', '0', "\0", "0", tried  strcmp
-      //Checked the boolean value w a print statement and it was getting back 0. 4 am im kinda sad
-      }
-  return 0;
+    case 'c': placeHold++;  // .c
+      return 3;
+
+    case 's': placeHold++; // .sh
+      return 4;
+
+    default :
+      return -1;
+    }
+
 }
 
 int main(int arg, char *argv[]) {
