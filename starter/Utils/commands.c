@@ -17,10 +17,11 @@ int checkFile(int argc, char **argv, char **fileName) {
 
   for (int i = 0; i < 4; i++) {
     if (strcmp(point, types[i]) == 0) {
+      printf("returning %d + 1", i);
       return i + 1; // Already 1-indexed it, too lazy to convert it to 0 index
     }
   }
-
+  printf("failed");
   return -1;
 }
 
@@ -99,5 +100,11 @@ void rn(FILE *theFile) {
       fputc(str[x][i], theFile);
     }
   }
+}
 
+void error(char *argv[]) {
+  printf("usage: ./%s {filename}\n",argv[0]);
+  printf("usage:./%s {fileName} {pt/redux/rn} \n", argv[0]);
+  printf("pls pass in a file w type .c, .py, .java. pt = pyTorch, redux = redux, rn = react-native\n");
+  exit(-1);
 }

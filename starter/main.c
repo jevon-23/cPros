@@ -25,31 +25,40 @@ int processCLI(int argc, char **argv, char **filename) {
       if (strcmp(imports[i], argv[2]) == 0) {
         if (i != 1) { // if not redux
           *filename = argv[1];
-          checkFile(argc, argv, filename);
+          fileNum = checkFile(argc, argv, filename);
         }
-        return importNums[i];
+        return importNums[i] ? fileNum != -1 : -1 ;
       }
     }
 
   *filename = argv[1];
   fileNum = checkFile(argc, argv, filename);
-
+  printf("\nfileNum = %d", fileNum);
   return fileNum;
 }
+
 // usage/ inputs:
 // 1. {filename} | 2. {import} {fileName}  (takes in singular import at the moment)
 // check ReadMe for how it exactly works
 
 int main(int arg, char *argv[]) {
- char *file;
- int val;
+ char *file;  // The file Name
+ int val; // Value correlating with .extension type
+ printf("hello world");
+
  val = processCLI(arg, argv, &file);
+ if (val == -1) {
+   error(argv);
+
+   // error(argv);
+ }
+
  FILE *theFile = fopen(file, "w");
- printf("%d", val);
+ printf("\n%d", val);
 
  switch(val) {
    case 1:
-     // pyStr(theFile, )
+     // pyStr(theFile, import)
     break;
 
   case 2:
@@ -77,14 +86,12 @@ int main(int arg, char *argv[]) {
     break;
 
    default :
-     printf("usage: ./%s {filename}\n",argv[0]);
-     printf("usage:./%s {fileName} {pt/redux/rn} \n", argv[0]);
-     printf("pls pass in a file w type .c, .py, .java. pt = pyTorch, redux = redux, rn = react-native\n");
+     error(argv);
      exit(-1);
  }
 
  printf("process finished\n");
 
- return 0;
+ return -1;
 
 }
