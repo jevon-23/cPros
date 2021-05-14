@@ -17,11 +17,9 @@ int checkFile(int argc, char **argv, char **fileName) {
 
   for (int i = 0; i < 4; i++) {
     if (strcmp(point, types[i]) == 0) {
-      printf("returning %d + 1", i);
       return i + 1; // Already 1-indexed it, too lazy to convert it to 0 index
     }
   }
-  printf("failed");
   return -1;
 }
 

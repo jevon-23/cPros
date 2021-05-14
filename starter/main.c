@@ -33,7 +33,6 @@ int processCLI(int argc, char **argv, char **filename) {
 
   *filename = argv[1];
   fileNum = checkFile(argc, argv, filename);
-  printf("\nfileNum = %d", fileNum);
   return fileNum;
 }
 
@@ -44,17 +43,13 @@ int processCLI(int argc, char **argv, char **filename) {
 int main(int arg, char *argv[]) {
  char *file;  // The file Name
  int val; // Value correlating with .extension type
- printf("hello world");
 
  val = processCLI(arg, argv, &file);
  if (val == -1) {
    error(argv);
-
-   // error(argv);
  }
 
  FILE *theFile = fopen(file, "w");
- printf("\n%d", val);
 
  switch(val) {
    case 1:
@@ -87,7 +82,6 @@ int main(int arg, char *argv[]) {
 
    default :
      error(argv);
-     exit(-1);
  }
 
  printf("process finished\n");
