@@ -2,9 +2,9 @@
 Small programs written in C, most of them are used to write imports and main methods into files. 
 
 # starter
-  Usage: ./main {filename}\n
-        ./main {fileName} {pt/rn}\n
-        ./main redux\n
+  ./main {filename}\n
+  ./main {fileName} {pt/rn}\n
+  ./main redux\n
         
   Takes in a filename, creates that file, and writes to it the necessary things needed to run that file (i.e c program needs a main func w/ some imports, java programs need public class, etc., Check starter/Utils/commands.c).
 
