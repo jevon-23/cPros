@@ -25,9 +25,9 @@ int processCLI(int argc, char **argv, char **filename) {
       if (strcmp(imports[i], argv[2]) == 0) {
         if (i != 1) { // if not redux
           *filename = argv[1];
-          fileNum = checkFile(argc, argv, filename);
+          checkFile(argc, argv, filename);
         }
-        return importNums[i]; // if redux, returns 6
+        return importNums[i];
       }
     }
 
