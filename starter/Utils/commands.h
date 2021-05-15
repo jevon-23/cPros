@@ -17,4 +17,4 @@ void shStr(char **fileName);
 void ptStr(FILE *theFile);
 void redux();
 void rn(FILE *theFile);
-void error(char *argv[]);
+// void error(char *argv[]);

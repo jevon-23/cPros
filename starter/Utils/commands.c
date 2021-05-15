@@ -3,6 +3,7 @@
 #include <string.h>
 #include<string.h>
 #include<unistd.h>
+#include "commands.h"
 
 int checkFile(int argc, char **argv, char **fileName) {
   char pointer[100];  // a copy of the filename that we will traverse through
@@ -100,9 +101,9 @@ void rn(FILE *theFile) {
   }
 }
 
-void error(char *argv[]) {
-  printf("usage: ./%s {filename}\n",argv[0]);
-  printf("usage:./%s {fileName} {pt/redux/rn} \n", argv[0]);
-  printf("pls pass in a file w type .c, .py, .java. pt = pyTorch, redux = redux, rn = react-native\n");
-  exit(-1);
-}
+// void error(char *argv[]) {
+//   printf("usage: ./%s {filename}\n",argv[0]);
+//   printf("usage:./%s {fileName} {pt/redux/rn} \n", argv[0]);
+//   printf("pls pass in a file w type .c, .py, .java. pt = pyTorch, redux = redux, rn = react-native\n");
+//   exit(-1);
+// }

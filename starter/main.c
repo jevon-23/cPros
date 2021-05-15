@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,7 +23,7 @@ int processCLI(int argc, char **argv, char **filename) {
 
     // If we are dealing with an import, we cannot make it based on the fileName. and we are not shortcircuting.
     for (int i = 0; i < 3; i++) {
-      if (strcmp(imports[i], argv[2]) == 0) {
+      if (strcmp(imports[i], argv[1]) == 0 || ((argc == 3) && (strcmp(imports[i], argv[2]) == 0))) {
         if (i != 1) { // if not redux
           *filename = argv[1];
           fileNum = checkFile(argc, argv, filename);
@@ -46,7 +47,8 @@ int main(int arg, char *argv[]) {
 
  val = processCLI(arg, argv, &file);
  if (val == -1) {
-   error(argv);
+   return -1;
+   // error(argv);
  }
 
  FILE *theFile = fopen(file, "w");
@@ -81,7 +83,8 @@ int main(int arg, char *argv[]) {
     break;
 
    default :
-     error(argv);
+    return -1;
+     // error(argv);
  }
 
  printf("process finished\n");
