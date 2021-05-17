@@ -69,7 +69,7 @@ void cStr(FILE *theFile) {
 // .sh
 void shStr(char **fileName) {
   char shArgs[100];
-  strcpy(shArgs,"~/programs/cpros/starter/sh_helper/helps.sh ");
+  strcpy(shArgs,"~/programs/cpros/starter/Utils/sh_helper/helps.sh ");
   system(strcat(shArgs, *fileName));
 }
 
