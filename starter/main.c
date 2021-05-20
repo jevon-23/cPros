@@ -47,8 +47,7 @@ int main(int arg, char *argv[]) {
 
  val = processCLI(arg, argv, &file);
  if (val == -1) {
-   return -1;
-   // error(argv);
+   error(argv);
  }
 
  FILE *theFile = fopen(file, "w");
@@ -83,12 +82,11 @@ int main(int arg, char *argv[]) {
     break;
 
    default :
-    return -1;
-     // error(argv);
+    error(argv);
+
  }
 
  printf("process finished\n");
-
- return -1;
+ return 0;
 
 }
