@@ -6,25 +6,24 @@ For C, it simply creates a main function and includes a almost necessary library
 
 For Java, creates a new class and a new main function. 
 
+For .sh, writes in .zsh import
+
 Also works with importing libraries for react-native, and pytorch, and can create the files necessary to use redux.
 
-Go into utils and compile commands
-```
+Go into utils and compile commands (Sorry I cannot figure out how to get command line calls to look nice, will come back later)
 
-gcc -c commands commands.c
-
-```
+```gcc -c commands commands.c```
 
 go back out to starter, and compile main
-```
+```gcc -o main Utils/commands main.c```
 
-gcc -o main Utils/commands main.c
+running main, creates a file with the necessary things a file of this type .extension to compile and run
+```./main {fileName}```
 
-```
+creates a file with the basic imports needed to make this file run given this .extension and import
+```./main {fileName} {import}``` 
+import = pt(pytorch) or rn (react-native)
 
+creates a directory for redux including action.js, index.js, reducer.js, actionTypes.js, store.js
+```./main redux```
 
-```
-
-./main fileType
-
-```
