@@ -37,25 +37,30 @@ void error(int type) {
 
 }
 
-int init() {
+// Creates the head node and intitates the file.
+void init() {
+
+  // Creating head
   class *theClass = (class *) malloc(sizeof(class));
   strcpy(theClass->theClass, "Head");
   strcpy(theClass->subClass, "Node");
   theClass->len = 1;
 
+  // Making list of all nodes
   class **allClasses = (class **) malloc(sizeof(class **));
   allClasses[0] = theClass;
-  writeFile(allClasses);
-  freeClasses(allClasses);
-  return 0;
+
+
+  writeFile(allClasses);  // Writing nodes to file
+  freeClasses(allClasses);  // Freeing obj
+
 }
 
 // Opens a the website given from link
 // Inputs: link -> the website that we will like to open
+void getWebsite(char *link) {
 
-
-int getWebsite(char *link) {
-  // If http or https does not begin our website link, it will not open up through system()
+  // If http or https does not begin our website link, system() will look for a file instead of a web page.
   char *http = "http://"; //
   char *https = "https://";
 
@@ -68,8 +73,7 @@ int getWebsite(char *link) {
   }
   strcat(command, link);  // Append the link
 
-  system(command);
-  return 0;
+  system(command);  // Opening default web page.
 }
 
 // Reads allClasses from .allClasses, and returns a pointer to a list of all the classes
@@ -84,31 +88,30 @@ class** readFile() {
   class **allClasses; // A list of all the classes
   allClasses = (class **) malloc(sizeof(class));
 
-
-  // Making space for the next class object
-  class *nextClass = (class *) malloc(sizeof(class));
+  class *nextClass = (class *) malloc(sizeof(class)); //Individual class obj
 
   int index = 0;
-
   // Iterating through all the classes in the file, and putting them in allClasses
-  while (fread(nextClass,  sizeof(class) + sizeof(int) + 2300, 1, theFile)) {
+  while (fread(nextClass, sizeof(class) + sizeof(int) + 2300, 1, theFile)) {
 
+    // Our head node stores our length.
     if (index == 0) {
-
       allClasses = realloc(allClasses, sizeof(class) * nextClass->len);
     }
     allClasses[index] = nextClass;
+
     nextClass = (class *) malloc(sizeof(class));
-
-
     index++;
   }
+
   free(nextClass);
   fclose(theFile);
   return allClasses;
 
 }
 
+// Writes all of the structs in this list to .allClasses
+// Input: List of all of the classes
 void writeFile(class **allClasses) {
 
   FILE *theFile = fopen(thePath, "w+");
@@ -116,6 +119,8 @@ void writeFile(class **allClasses) {
     error(2);
   }
 
+  // Iterating over the structs and writing earch one to file
+  // https://www.geeksforgeeks.org/readwrite-structure-file-c/
   for (int i = 0; i < allClasses[0]->len; i++) {
     if (fwrite(allClasses[i], sizeof(class) + sizeof(int) + 2300, 1, theFile) != 1) {
       printf("failed to write to file");
@@ -123,20 +128,18 @@ void writeFile(class **allClasses) {
       printf("writing to file\n");
     }
   }
-
-
   fclose(theFile);
-
 }
 
-int freeClasses(class **allClasses) {
+// Freeing pointers.
+void freeClasses(class **allClasses) {
   for (int i = 0; i < allClasses[0]->len; i++) {
     free(allClasses[i]);
   }
   free(allClasses);
-  return 0;
 }
 
+// Prints out the classes
 void printAllClasses() {
   class **allClasses = readFile();
 
@@ -146,7 +149,13 @@ void printAllClasses() {
   }
 }
 
-int add(char *theClass, char *subClass, char *link) {
+// Adds a class to the allClasses file.
+// Inputs:
+//  String theClass = class->theClass (i.e. Calculus 1)
+//  String subClass = class->subClass (i.e. duscussion)
+//  String link = class->link (i.e. zoom.com)
+
+void add(char *theClass, char *subClass, char *link) {
   class **allClasses = readFile();
 
   // head "node" will host the length.
@@ -163,7 +172,7 @@ int add(char *theClass, char *subClass, char *link) {
   }
 
   head->len++;
-  
+
   // Creating the newClass
   class *newClass = (class *) malloc(sizeof(class));
   strcpy(newClass->theClass, theClass);
@@ -171,25 +180,28 @@ int add(char *theClass, char *subClass, char *link) {
   strcpy(newClass->link, link);
   newClass->len = head->len;
 
-  allClasses = realloc(allClasses, sizeof(class) * (head->len));  // Making space for the new class being added.
+  // Inserting newClass to allClasses
+  allClasses = realloc(allClasses, sizeof(class) * (head->len));
   allClasses[head->len-1] = newClass;
 
-  // Writing newClass to file
+  // Writing newClass to file and freeing the classes after
   writeFile(allClasses);
   freeClasses(allClasses);
 
-  return 0;
 }
 
-int openWebsite(char *theClass, char *subClass) {
-  class **allClasses = readFile();
-  class *newClass;
+// Opening the user inputs website
+// Inputs:
+//  String theClass = class->theClass
+//  String subClass = class->subClass
+void openWebsite(char *theClass, char *subClass) {
+  class **allClasses = readFile();  // List of all of the classes
+  class *newClass;  // The class who's website we want to open.
   for (int i = 1; i < allClasses[0]->len; i++) {
     if ((strcmp(allClasses[i]->theClass, theClass) == 0) && (strcmp(allClasses[i]->subClass, subClass) == 0)) {
       newClass = allClasses[i];
     }
   }
-  getWebsite(newClass->link);
+  getWebsite(newClass->link); // Opening up website
   freeClasses(allClasses);
-  return 0;
 }
