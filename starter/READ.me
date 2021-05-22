@@ -1,10 +1,30 @@
 A simple program that creates the headers for files. 
 
-Takes in .c, .py, and .java as of right now. 
+Takes in .sh, .c, .py, and .java as of right now. 
 
-For C, it simply creates a main function.
+For C, it simply creates a main function and includes a almost necessary librarys.
 
 For Java, creates a new class and a new main function. 
 
-For Python, reminds you that there is no reason to use this on a .py file. 
+Also works with importing libraries for react-native, and pytorch, and can create the files necessary to use redux.
 
+Go into utils and compile commands
+```
+
+gcc -c commands commands.c
+
+```
+
+go back out to starter, and compile main
+```
+
+gcc -o main Utils/commands main.c
+
+```
+
+
+```
+
+./main fileType
+
+```
