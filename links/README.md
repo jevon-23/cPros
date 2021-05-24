@@ -19,4 +19,8 @@
   
   ./main print
   
+ * Deletes a saved class
  
+  ./main delete {class} {subClass} 
+   
+  (i.e. delete Calculus1 Discussion  
