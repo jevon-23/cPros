@@ -37,6 +37,8 @@ Currently, these are are all dependent on my system, so if you would like to use
   
   ./main print
   
+  ./main delete {class} {subClass}
+  
   * Users help
     To open the webpage, I am using a system("open ...), this may not be applicable for I believe windows users. If not, look in to ShellExecute()
   
