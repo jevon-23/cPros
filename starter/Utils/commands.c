@@ -55,7 +55,7 @@ void javaStr(FILE *theFile, char **fileName) {
 // .c files
 void cStr(FILE *theFile) {
   char *cStrs[3];
-  cStrs[0] = "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <float.h>\n\n";
+  cStrs[0] = "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <float.h>\n#include <stdbool.h>\n\n";
   cStrs[1] = "int processCLI(int argc, char **argv, char **filename) {\n  if (argc != 2) {\n    printf(\"usage:\");\n    exit(-1);\n  }\n  return 0;\n}\n";
   cStrs[2] = "int main(int arg, char *argv[]) {\n}\n";
 
