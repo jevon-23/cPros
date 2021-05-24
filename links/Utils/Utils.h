@@ -15,7 +15,7 @@ typedef struct class {
 class** readFile();
 void writeFile(class **allClasses);
 void add(char *theClass, char *subClass, char *link);
-void delete(class *theClass);
+void delete(char *theClass, char *subClass);
 void openWebsite(char *theClass, char *subClass);
 void freeClasses();
 void init();

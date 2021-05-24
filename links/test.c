@@ -9,7 +9,7 @@ void testInit() {
 
 void testRead() {
   testInit();
-  class **allClasses = readFile();
+  class **allClasses = readFile(0);
   printf("\n after reading file, allClasses[0]->len = %s\n", allClasses[0]->theClass);
   freeClasses(allClasses);
 }
@@ -20,7 +20,7 @@ void testAdd() {
   char *subClass = "web";
   char *link = "google.com";
   add(newClass, subClass, link);
-  class **allClasses = readFile();
+  class **allClasses = readFile(0);
   printf("\nallClasses[1]->theClass = %s\n", allClasses[1]->theClass);
 
   freeClasses(allClasses);
@@ -35,7 +35,11 @@ void testOpen() {
   openWebsite(newClass, subClass);
 }
 void testPrint() {
-  printAllClasses();
+  printAllClasses(0);
+}
+
+void testDelete() {
+  system("./cMain.sh");
 }
 
 int main(int arg, char *argv[]) {
@@ -44,4 +48,5 @@ int main(int arg, char *argv[]) {
   // testAdd();
   // testOpen();
   // testPrint();
+  // testDelete();
 }

@@ -8,7 +8,7 @@
 
 
 const char *thePath = ".allClases";
-
+const char *garbagePath = ".garbageClasses";
 void error(int type) {
 
   switch(type){
@@ -50,7 +50,6 @@ void init() {
   class **allClasses = (class **) malloc(sizeof(class **));
   allClasses[0] = theClass;
 
-
   writeFile(allClasses);  // Writing nodes to file
   freeClasses(allClasses);  // Freeing obj
 
@@ -78,8 +77,6 @@ void getWebsite(char *link) {
 
 // Reads allClasses from .allClasses, and returns a pointer to a list of all the classes
 class** readFile() {
-
-  // opening the file
   FILE *theFile = fopen(thePath, "r+");
   if (theFile == NULL) {
     error(1);
@@ -87,27 +84,25 @@ class** readFile() {
 
   class **allClasses; // A list of all the classes
   allClasses = (class **) malloc(sizeof(class));
-
   class *nextClass = (class *) malloc(sizeof(class)); //Individual class obj
-
   int index = 0;
-  // Iterating through all the classes in the file, and putting them in allClasses
-  while (fread(nextClass, sizeof(class) + sizeof(int) + 2300, 1, theFile)) {
 
-    // Our head node stores our length.
-    if (index == 0) {
-      allClasses = realloc(allClasses, sizeof(class) * nextClass->len);
+    // Iterating through all the classes in the file, and putting them in allClasses
+    while (fread(nextClass, sizeof(class) + sizeof(int) + 2300, 1, theFile)) {
+
+      // Our head node stores our length, so saving space for what we need.
+      if (index == 0) {
+        allClasses = realloc(allClasses, (sizeof(class) + sizeof(int) + 2300) * nextClass->len);
+      }
+      allClasses[index] = nextClass;
+
+      nextClass = (class *) malloc(sizeof(class));
+      index++;
     }
-    allClasses[index] = nextClass;
 
-    nextClass = (class *) malloc(sizeof(class));
-    index++;
-  }
-
-  free(nextClass);
+  free(nextClass);  //
   fclose(theFile);
   return allClasses;
-
 }
 
 // Writes all of the structs in this list to .allClasses
@@ -122,11 +117,11 @@ void writeFile(class **allClasses) {
   // Iterating over the structs and writing earch one to file
   // https://www.geeksforgeeks.org/readwrite-structure-file-c/
   for (int i = 0; i < allClasses[0]->len; i++) {
-    if (fwrite(allClasses[i], sizeof(class) + sizeof(int) + 2300, 1, theFile) != 1) {
-      printf("failed to write to file");
-    } else {
-      printf("writing to file\n");
-    }
+      if (fwrite(allClasses[i], sizeof(class) + sizeof(int) + 2300, 1, theFile) != 1) {
+        printf("failed to write to file");
+      } else {
+        printf("writing to file\n");
+      }
   }
   fclose(theFile);
 }
@@ -149,17 +144,73 @@ void printAllClasses() {
   }
 }
 
+// Pushes the node at index all the way to the back of the list.
+// Inputs :
+  // allClasses = array of all classes
+  // index = the index of the class that we want to push towards the back.
+// Might make a cache system in which this would be used to sort the nodes in terms of frequency? prolly unneccessary but a thought
+void pushNodesForward(class **allClasses, int index) {
+
+  // Going to deep copy the struct that we want to remove, move it to the end of the list, and then remove it afterwards
+  class *remove = allClasses[index]; // We are going to pass this node to the end
+
+  // temp var for theClass
+  char removeTheClass[100];
+  char removeSubClass[100];
+  char removeLink[2048];
+
+  strcpy(removeTheClass, remove->theClass);
+  strcpy(removeSubClass, remove->subClass);
+  strcpy(removeLink, remove->link);
+
+
+  for (int i = index; i < (allClasses[0]->len-1); i++) {
+    class *currClass = allClasses[i];
+    class *update = allClasses[i + 1];
+
+    // Updating the current node to be the next
+    strcpy(currClass->theClass, update->theClass);
+    strcpy(currClass->subClass, update->subClass);
+    strcpy(currClass->link, update->link);
+
+    // Setting the next node to be what the previous node was, aka the class we want to remove
+    strcpy(update->theClass, removeTheClass);
+    strcpy(update->subClass, removeSubClass);
+    strcpy(update->link, removeLink);
+
+  }
+}
+
+void delete(char *theClass, char *subClass) {
+  class **allClasses = readFile(); //  allClasses
+
+  // Adding deleted node to our .garbagePath
+  for (int i = 0; i < allClasses[0]->len; i++) {
+
+    // If we are at the class that we want to remove.
+    if ((strcmp(allClasses[i]->theClass, theClass) == 0) && (strcmp(allClasses[i]->subClass, subClass) == 0)) {
+      pushNodesForward(allClasses, i);  // Pushing the node that we want to remove to the back, and moving all of the other nodes to the front.
+
+      // we are removing the last node, so freeing the pointer and changing the amount of space we are taking up.
+      free(allClasses[allClasses[0]->len-1]);
+      break;
+    }
+  }
+  allClasses[0]->len--;
+  writeFile(allClasses);
+  freeClasses(allClasses);
+}
+
 // Adds a class to the allClasses file.
 // Inputs:
 //  String theClass = class->theClass (i.e. Calculus 1)
 //  String subClass = class->subClass (i.e. duscussion)
 //  String link = class->link (i.e. zoom.com)
-
+// int fileSwitch = (0 = add) || (1 = delete),
 void add(char *theClass, char *subClass, char *link) {
-  class **allClasses = readFile();
 
-  // head "node" will host the length.
-  class *head = allClasses[0];
+  class **allClasses = readFile();
+  class *head = allClasses[0];  // head "node" will host the length.
 
   // Checking to see if this class is already in our file, removing for now to make my life easier for testing purposes lol
   for (int i = 1; i < head->len; i++) {
@@ -174,14 +225,14 @@ void add(char *theClass, char *subClass, char *link) {
   head->len++;
 
   // Creating the newClass
-  class *newClass = (class *) malloc(sizeof(class));
+  class *newClass = (class *) malloc(sizeof(class)+ sizeof(int) + 2300);
   strcpy(newClass->theClass, theClass);
   strcpy(newClass->subClass, subClass);
   strcpy(newClass->link, link);
   newClass->len = head->len;
 
   // Inserting newClass to allClasses
-  allClasses = realloc(allClasses, sizeof(class) * (head->len));
+  allClasses = realloc(allClasses, (sizeof(class) + sizeof(int) + 2300) * (head->len));
   allClasses[head->len-1] = newClass;
 
   // Writing newClass to file and freeing the classes after

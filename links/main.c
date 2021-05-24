@@ -57,7 +57,7 @@ int main(int arg, char *argv[]) {
       openWebsite(argv[2], argv[3]);
       break;
     case 3:
-      //Not yet implemented
+      delete(argv[2], argv[3]);
       break;
     case 4: // print
       printAllClasses();
