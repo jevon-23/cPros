@@ -41,12 +41,4 @@ Currently, these are are all dependent on my system, so if you would like to use
   
   * Users help
     To open the webpage, I am using a system("open ...), this may not be applicable for I believe windows users. If not, look in to ShellExecute()
-  
-  * Future changes
-    1. Implement a delete system. Not sure what it will look like, but I am thinking about turning it into an empty node, and then in add I will first look to see if we run into an empty node when we are searching grabbing all of the classes in readFile(). 
-  
-  
-  
-  
-  
-  
+ 
