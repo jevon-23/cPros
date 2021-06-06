@@ -4,7 +4,7 @@
 #include<string.h>
 #include<unistd.h>
 #include "commands.h"
-
+#include <sys/stat.h>
 int checkFile(int argc, char **argv, char **fileName) {
   char pointer[100];  // a copy of the filename that we will traverse through
   strcpy(pointer, *fileName);
@@ -14,23 +14,37 @@ int checkFile(int argc, char **argv, char **fileName) {
   point = strtok(point, ".");
   point = strtok(NULL, ".");
 
-  char *types[] = {"py", "java", "c", "sh"};
+  char *types[] = {"py", "java", "c", "sh", "go"};
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 5; i++) {
     if (strcmp(point, types[i]) == 0) {
-      return i + 1; // Already 1-indexed it, too lazy to convert it to 0 index
+      return i;
     }
   }
   return -1;
 }
 
+// .go package, alongside importing fmt and strings
+void goStr(FILE *theFile, char **fileName) {
+  char *goStrs[3];
+  goStrs[0] = "package ";
+  goStrs[1] = strtok(*fileName, ".");
+  goStrs[2] = "\n\nimport (\n\t\"fmt\"\n\"\tstrings\"\n)";
+
+  for (int x = 0; x < 3; x++) {
+    for (int i = 0; goStrs[x][i] != '\0'; i++) {
+      fputc(goStrs[x][i], theFile);
+    }
+  }
+
+}
 // .py imports. As of right now only takes in pytorch
 void pyStr(FILE *theFile, int import) {
 
   //pyTorch
   if (import == 5) {
     char thestr[] =  "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\nimport torch.optim as optim\nimport torchvision\nimport numpy as np\nclass Net(nn.Module):\n    def __init__(self):\n        super(Net, self).__init__()\n\n    def forward(self, x):\n        #fill in\n        x = 1\n";
-    for (int x = 0; thestr[x] != NULL; x++) {
+    for (int x = 0; thestr[x] != '\0'; x++) {
       fputc(thestr[x], theFile);
     }
     fclose(theFile);
@@ -42,10 +56,10 @@ void javaStr(FILE *theFile, char **fileName) {
   char *javaStrs[3];
   javaStrs[0] = "public class ";
   javaStrs[1] = strtok(*fileName, ".");
-  javaStrs[2] = "{\n  public static void main(String args[]) {\n  }\n}\n";
+  javaStrs[2] = " {\n  public static void main(String args[]) {\n  }\n}\n";
 
   for (int x = 0; x < 3; x++) {
-    for (int i = 0; javaStrs[x][i] != NULL; i++) {
+    for (int i = 0; javaStrs[x][i] != '\0'; i++) {
       fputc(javaStrs[x][i], theFile);
     }
   }
@@ -60,7 +74,7 @@ void cStr(FILE *theFile) {
   cStrs[2] = "int main(int arg, char *argv[]) {\n}\n";
 
   for (int x = 0; x < 3; x++) {
-    for (int i = 0; cStrs[x][i] != NULL; i++) {
+    for (int i = 0; cStrs[x][i] != '\0'; i++) {
       fputc(cStrs[x][i], theFile);
     }
   }
@@ -95,7 +109,7 @@ void rn(FILE *theFile) {
   str[1] = "import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';\n";
 
   for (int x = 0; x < 2; x++) {
-    for (int i = 0; str[x][i] != NULL; i++) {
+    for (int i = 0; str[x][i] != '\0'; i++) {
       fputc(str[x][i], theFile);
     }
   }
@@ -104,6 +118,6 @@ void rn(FILE *theFile) {
 void error(char *argv[]) {
   printf("usage: %s {filename}\n",argv[0]);
   printf("usage: %s {fileName} {pt/redux/rn} \n", argv[0]);
-  printf("pls pass in a file w type .c, .py, .java. pt = pyTorch, redux = redux, rn = react-native\n");
+  printf("pls pass in a file w type .c, .py, .java. pt = pyTorch, redux = redux, rn = react-native,\n\tgolang = .go\n");
   exit(-1);
 }

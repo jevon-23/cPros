@@ -15,6 +15,7 @@ void javaStr(FILE *theFile, char **fileName);
 void cStr(FILE *theFile);
 void shStr(char **fileName);
 void ptStr(FILE *theFile);
+void goStr(FILE *theFile, char **fileName);
 void redux();
 void rn(FILE *theFile);
 void error(char *argv[]);

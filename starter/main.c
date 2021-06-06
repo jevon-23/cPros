@@ -19,7 +19,7 @@ int processCLI(int argc, char **argv, char **filename) {
 
   // Lazy code. Basically mapping each import to a num without using some type of actual mapping. mayve ill clean this up later.
     char *imports[] = {"pt", "redux", "rn"};
-    int importNums[] = {5, 6, 7}; // {pt, redux, react-native}
+    int importNums[] = {100, 101, 102}; // {pt, redux, react-native}
 
     // If we are dealing with an import, we cannot make it based on the fileName. and we are not shortcircuting.
     for (int i = 0; i < 3; i++) {
@@ -53,35 +53,39 @@ int main(int arg, char *argv[]) {
  FILE *theFile = fopen(file, "w");
 
  switch(val) {
-   case 1:
+   case 0:
      // pyStr(theFile, import)
     break;
 
-  case 2:
+  case 1:
       javaStr(theFile, &file);  // java
       break;
 
-  case 3:
+  case 2:
       cStr(theFile); // c
       break;
 
-  case 4:
+  case 3:
     shStr(&file); // sh
     break;
 
-  case 5:
+  case 4:
+    goStr(theFile, &file); // goLang
+
+  // Imports
+  case 100:
     pyStr(theFile, val); // pt
     break;
 
-  case 6:
+  case 101:
     redux(); // redux
     break;
 
-  case 7:
+  case 102:
     rn(theFile); // react-native
     break;
 
-   default :
+  default :
     error(argv);
 
  }
