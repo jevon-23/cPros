@@ -16,27 +16,26 @@ int processCLI(int argc, char *argv[]) {
     if (strcmp(argv[1], "init") == 0) { // If Init
       return 0;
     } else if (strcmp(argv[1], "print") == 0) {     // If print
-      return 4;
+      return 6;
     } else if (strcmp(argv[1], "help") == 0) {
-      return 5;
+      return 7;
     }
 
     return -1;
   }
 
-  char *commands[3] = {"add", "open", "delete"};
+  char *commands[5] = {"add", "open", "delete", "add+", "open+"};
 
 // add = 1, open = 2, delete = 3,
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 5; i++) {
     if (strcmp(argv[1], commands[i]) == 0) {
-      checkInputLen(argv[1], argc);
+      checkInputLen(argv[1], argc, argv[2]);
       return i+1;
     }
   }
 
   return -1;
 }
-
 
 int main(int arg, char *argv[]) {
   int command = processCLI(arg, argv);
@@ -50,16 +49,23 @@ int main(int arg, char *argv[]) {
       add(argv[2], argv[3], argv[4]);
       break;
     case 2: // Open
-      openWebsite(argv[2], argv[3]);
+      openWebsite(argv[2], argv[3], false);
       break;
     case 3:
       delete(argv[2], argv[3]); // delete
       break;
-    case 4: // print
+    case 4:
+      addGroup(argv[3], (argv + 4), atoi(argv[2]));  // ./main addGroup 3 startPack google.com reddit.com amazon.com
+      break;
+    case 5:
+      openWebsite(argv[2], "", true); // ./main openGroup startPack
+      break;
+    case 6: // print
       printAllClasses();
       break;
-    case 5: // help
+    case 7: // help
       printHelp();
+      break;
     default:
       printf("failing in main\n");
       error(7);

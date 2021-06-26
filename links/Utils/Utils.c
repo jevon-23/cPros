@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<string.h>
-#include<unistd.h>
+#include <string.h>
+#include <unistd.h>
 #include <float.h>
+#include <stdbool.h>
+#include <math.h>
 #include "Utils.h"
+
 
 
 const char *thePath = ".allClases";
@@ -44,16 +47,19 @@ void printHelp() {
   printf("usage: Basically a bookmark system. Stores links under names -> subNames.");
   printf("\n\t./main init \n\t\t->  Run this first. Initializes .allClasses, which is the file that holds our links.\n");
   printf("\n\t./main add {theClass} {subClass} {link} \n\t\t-> Saves a new link to the file\n\t\t-> (i.e. ./main add google web google.com)\n");
+  printf("\n\t./main add+ {numGroups} {groupName} {link1.com} {link2.com} ...\n\t\t-> Saves a group of links under the name groupName \n\t\t-> (i.e. ./main add+ 2 startPack google.com reddit.com)\n");
   printf("\n\t./main open {theClass} {subClass} \n\t\t-> Opens the website that has been saved under THECLASS and SUBCLASS.\n\t\t-> (i.e. ./main open google web)\n");
+  printf("\n\t./main open+ {theClass}\n\t\t-> Opens a group of tabs that has been saved under THECLASS.\n\t\t-> (i.e. open+ startPack)\n");
   printf("\n\t./main delete {theClass} {subClass} \n\t\t-> Deletes the class associated with THECLASS and SUBCLASS.\n\t\t-> (i.e. ./main delete google web)\n");
   printf("\n\t./main print \n\t\t-> Prints all of the classes alongside its subclass and links.\n");
   printf("\n\t ./main help \n\t\t-> Prints this.\n");
 }
-void checkInputLen(char *theInput, int argc) {
+void checkInputLen(char *theInput, int argc, char *numGroups) {
 
   if ((strcmp(theInput, "add") == 0 && argc != 5)
-    || ((strcmp(theInput, "open") == 0 || (strcmp(theInput, "delete") == 0)) && argc != 4))
-  {
+    || ((strcmp(theInput, "open") == 0 || (strcmp(theInput, "delete") == 0)) && argc != 4)
+    || (strcmp(theInput, "addGroup") == 0 && atoi(numGroups) == 0)
+  ){
 
       // Basically if they pass in add open or delete but dont give the right amount of parameters
       // I could typecheck, but Im going to rely on user, and i am user lol
@@ -227,6 +233,21 @@ void delete(char *theClass, char *subClass) {
   freeClasses(allClasses);
 }
 
+/*
+We are simply going to add a bunch of classes with the same theClass, but diff subclass.
+*/
+void addGroup(char *theClass, char **theLinks, int theLinksLen) {
+  printf("inside of addGroup. theLinks[0] = %s, theLinksLen = %d\n", *theLinks, theLinksLen);
+  int enough = (ceil(log10(2))+1) * sizeof(char);
+  char *subClass = (char *) malloc(enough);
+  for (int i = 0; i < theLinksLen; i++) {
+
+    sprintf(subClass, "%d", i);
+    add(theClass, subClass, *(theLinks+ i));
+
+  }
+}
+
 // Adds a class to the allClasses file.
 // Inputs:
 //  String theClass = class->theClass (i.e. Calculus 1)
@@ -271,14 +292,16 @@ void add(char *theClass, char *subClass, char *link) {
 // Inputs:
 //  String theClass = class->theClass
 //  String subClass = class->subClass
-void openWebsite(char *theClass, char *subClass) {
+void openWebsite(char *theClass, char *subClass, bool group) {
   class **allClasses = readFile();  // List of all of the classes
-  class *newClass;  // The class who's website we want to open.
   for (int i = 1; i < allClasses[0]->len; i++) {
-    if ((strcmp(allClasses[i]->theClass, theClass) == 0) && (strcmp(allClasses[i]->subClass, subClass) == 0)) {
-      newClass = allClasses[i];
+    if (!group && (strcmp(allClasses[i]->theClass, theClass) == 0) && (strcmp(allClasses[i]->subClass, subClass) == 0)) {
+      getWebsite(allClasses[i]->link); // Opening up website
+      break;
+    }
+    if (group && strcmp(allClasses[i]->theClass, theClass) == 0) {
+      getWebsite(allClasses[i]->link);
     }
   }
-  getWebsite(newClass->link); // Opening up website
   freeClasses(allClasses);
 }

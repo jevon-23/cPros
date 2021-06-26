@@ -32,7 +32,7 @@ void testOpen() {
   char *subClass = "web";
   char *link = "google.com";
   add(newClass, subClass, link);
-  openWebsite(newClass, subClass);
+  openWebsite(newClass, subClass, false);
 }
 void testPrint() {
   printAllClasses(0);
@@ -46,6 +46,19 @@ void testHelp() {
   printHelp();
 }
 
+void testOpenGroup() {
+  init();
+  char *startPack = "startPack";
+  char **links = (char **) malloc(sizeof(char *) * 2);
+  *links = "google.com";
+  *(links+1) = "reddit.com";
+  printf("links[0] = %s, links[1] = %s", *links, *(links+1));
+
+  addGroup(startPack, links, 2);
+  openWebsite(startPack, "", true);
+
+  free(links);
+}
 int main(int arg, char *argv[]) {
   // testInit();
   // testRead();
@@ -54,4 +67,5 @@ int main(int arg, char *argv[]) {
   // testPrint();
   // testDelete();
   // testHelp();
+  // testOpenGroup();
 }
