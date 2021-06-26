@@ -20,3 +20,6 @@ void openWebsite(char *theClass, char *subClass);
 void freeClasses();
 void init();
 void printAllClasses();
+void checkInputLen(char *theInput, int argc);
+void printHelp();
+void error();

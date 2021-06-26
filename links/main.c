@@ -12,29 +12,25 @@
 //    init = 0, add = 1, open = 2, delete = 3, print = 4
 int processCLI(int argc, char *argv[]) {
 
-  char *commands[5] = {"init", "add", "open", "delete", "print"};
-
   if (argc == 2) {
-      // If Init
-    if (strcmp(argv[1], commands[0]) == 0) {
+    if (strcmp(argv[1], "init") == 0) { // If Init
       return 0;
-    }
-    // If print
-    if (strcmp(argv[1], commands[4]) == 0) {
+    } else if (strcmp(argv[1], "print") == 0) {     // If print
       return 4;
+    } else if (strcmp(argv[1], "help") == 0) {
+      return 5;
     }
+
     return -1;
   }
 
-  if (argc != 5 && argc != 4) {
-    printf("usage:");
-    exit(-1);
-  }
+  char *commands[3] = {"add", "open", "delete"};
 
 // add = 1, open = 2, delete = 3,
-  for (int i = 1; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
     if (strcmp(argv[1], commands[i]) == 0) {
-      return i;
+      checkInputLen(argv[1], argc);
+      return i+1;
     }
   }
 
@@ -57,14 +53,16 @@ int main(int arg, char *argv[]) {
       openWebsite(argv[2], argv[3]);
       break;
     case 3:
-      delete(argv[2], argv[3]);
+      delete(argv[2], argv[3]); // delete
       break;
     case 4: // print
       printAllClasses();
       break;
+    case 5: // help
+      printHelp();
     default:
-      printf("unknown command\n");
-      exit(-1);
+      printf("failing in main\n");
+      error(7);
   }
   return 0;
 }

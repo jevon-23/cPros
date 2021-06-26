@@ -26,14 +26,40 @@ void error(int type) {
       break;
     case 5:
       printf("this link has been used for a previous class, which is the one that was printed above.\n");
+      break;
     case 6:
       printf("this class does not exist\n");
-
+      break;
+    case 7:
+      printf("Invalid input.\nFor assistance run -> ./main help\n");
+      break;
     default:
       printf("something broke but I dont have an index for it yet.\n");
   }
-
   exit(-1);
+
+}
+
+void printHelp() {
+  printf("usage: Basically a bookmark system. Stores links under names -> subNames.");
+  printf("\n\t./main init \n\t\t->  Run this first. Initializes .allClasses, which is the file that holds our links.\n");
+  printf("\n\t./main add {theClass} {subClass} {link} \n\t\t-> Saves a new link to the file\n\t\t-> (i.e. ./main add google web google.com)\n");
+  printf("\n\t./main open {theClass} {subClass} \n\t\t-> Opens the website that has been saved under THECLASS and SUBCLASS.\n\t\t-> (i.e. ./main open google web)\n");
+  printf("\n\t./main delete {theClass} {subClass} \n\t\t-> Deletes the class associated with THECLASS and SUBCLASS.\n\t\t-> (i.e. ./main delete google web)\n");
+  printf("\n\t./main print \n\t\t-> Prints all of the classes alongside its subclass and links.\n");
+  printf("\n\t ./main help \n\t\t-> Prints this.\n");
+}
+void checkInputLen(char *theInput, int argc) {
+
+  if ((strcmp(theInput, "add") == 0 && argc != 5)
+    || ((strcmp(theInput, "open") == 0 || (strcmp(theInput, "delete") == 0)) && argc != 4))
+  {
+
+      // Basically if they pass in add open or delete but dont give the right amount of parameters
+      // I could typecheck, but Im going to rely on user, and i am user lol
+      error(7);
+
+  }
 
 }
 

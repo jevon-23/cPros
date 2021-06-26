@@ -42,6 +42,10 @@ void testDelete() {
   system("./cMain.sh");
 }
 
+void testHelp() {
+  printHelp();
+}
+
 int main(int arg, char *argv[]) {
   // testInit();
   // testRead();
@@ -49,4 +53,5 @@ int main(int arg, char *argv[]) {
   // testOpen();
   // testPrint();
   // testDelete();
+  // testHelp();
 }
