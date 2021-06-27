@@ -9,9 +9,13 @@
 #include "Utils.h"
 
 
-
+// Where we are storing our data
 const char *thePath = ".allClases";
 const char *garbagePath = ".garbageClasses";
+
+/*
+  Prints out an error to console and exits program
+*/
 void error(int type) {
 
   switch(type){
@@ -43,6 +47,9 @@ void error(int type) {
 
 }
 
+/*
+  Printint out help.
+*/
 void printHelp() {
   printf("usage: Basically a bookmark system. Stores links under names -> subNames.");
   printf("\n\t./main init \n\t\t->  Run this first. Initializes .allClasses, which is the file that holds our links.\n");
@@ -54,19 +61,20 @@ void printHelp() {
   printf("\n\t./main print \n\t\t-> Prints all of the classes alongside its subclass and links.\n");
   printf("\n\t ./main help \n\t\t-> Prints this.\n");
 }
+
+/*
+  Slight error checking for input. Throws an error if we find a problem initially
+*/
 void checkInputLen(char *theInput, int argc, char *numGroups) {
 
   if ((strcmp(theInput, "add") == 0 && argc != 5)
     || ((strcmp(theInput, "open") == 0 || (strcmp(theInput, "delete") == 0)) && argc != 4)
-    || (strcmp(theInput, "addGroup") == 0 && atoi(numGroups) == 0)
+    || ((strcmp(theInput, "addGroup") == 0 && atoi(numGroups) == 0))
   ){
-
       // Basically if they pass in add open or delete but dont give the right amount of parameters
       // I could typecheck, but Im going to rely on user, and i am user lol
       error(7);
-
   }
-
 }
 
 // Creates the head node and intitates the file.
@@ -87,8 +95,10 @@ void init() {
 
 }
 
-// Opens a the website given from link
-// Inputs: link -> the website that we will like to open
+/*
+  Opens a the website given from link
+  Inputs: link -> the website that we will like to open
+*/
 void getWebsite(char *link) {
 
   // If http or https does not begin our website link, system() will look for a file instead of a web page.
@@ -132,13 +142,15 @@ class** readFile() {
       index++;
     }
 
-  free(nextClass);  //
+  free(nextClass);
   fclose(theFile);
   return allClasses;
 }
 
-// Writes all of the structs in this list to .allClasses
-// Input: List of all of the classes
+/*
+ Writes all of the structs in this list to .allClasses
+ Input: List of all of the classes
+*/
 void writeFile(class **allClasses) {
 
   FILE *theFile = fopen(thePath, "w+");
@@ -176,11 +188,12 @@ void printAllClasses() {
   }
 }
 
-// Pushes the node at index all the way to the back of the list.
-// Inputs :
-  // allClasses = array of all classes
-  // index = the index of the class that we want to push towards the back.
-// Might make a cache system in which this would be used to sort the nodes in terms of frequency? prolly unneccessary but a thought
+/* Pushes the node at index all the way to the back of the list.
+  Inputs :
+    allClasses = array of all classes
+    index = the index of the class that we want to push towards the back.
+  Might make a cache system in which this would be used to sort the nodes in terms of frequency? prolly unneccessary but a thought
+*/
 void pushNodesForward(class **allClasses, int index) {
 
   // Going to deep copy the struct that we want to remove, move it to the end of the list, and then remove it afterwards
@@ -190,7 +203,6 @@ void pushNodesForward(class **allClasses, int index) {
   char removeTheClass[100];
   char removeSubClass[100];
   char removeLink[2048];
-
   strcpy(removeTheClass, remove->theClass);
   strcpy(removeSubClass, remove->subClass);
   strcpy(removeLink, remove->link);
@@ -213,10 +225,13 @@ void pushNodesForward(class **allClasses, int index) {
   }
 }
 
+/*
+  Deletes the class from memory.
+*/
+
 void delete(char *theClass, char *subClass) {
   class **allClasses = readFile(); //  allClasses
 
-  // Adding deleted node to our .garbagePath
   for (int i = 0; i < allClasses[0]->len; i++) {
 
     // If we are at the class that we want to remove.
@@ -237,7 +252,6 @@ void delete(char *theClass, char *subClass) {
 We are simply going to add a bunch of classes with the same theClass, but diff subclass.
 */
 void addGroup(char *theClass, char **theLinks, int theLinksLen) {
-  printf("inside of addGroup. theLinks[0] = %s, theLinksLen = %d\n", *theLinks, theLinksLen);
   int enough = (ceil(log10(2))+1) * sizeof(char);
   char *subClass = (char *) malloc(enough);
   for (int i = 0; i < theLinksLen; i++) {
@@ -248,12 +262,14 @@ void addGroup(char *theClass, char **theLinks, int theLinksLen) {
   }
 }
 
-// Adds a class to the allClasses file.
-// Inputs:
-//  String theClass = class->theClass (i.e. Calculus 1)
-//  String subClass = class->subClass (i.e. duscussion)
-//  String link = class->link (i.e. zoom.com)
-// int fileSwitch = (0 = add) || (1 = delete),
+/*
+ Adds a class to the allClasses file.
+  Inputs:
+    String theClass = class->theClass (i.e. Calculus 1)
+    String subClass = class->subClass (i.e. duscussion)
+    String link = class->link (i.e. zoom.com)
+    int fileSwitch = (0 = add) || (1 = delete),
+*/
 void add(char *theClass, char *subClass, char *link) {
 
   class **allClasses = readFile();
@@ -288,10 +304,14 @@ void add(char *theClass, char *subClass, char *link) {
 
 }
 
-// Opening the user inputs website
-// Inputs:
-//  String theClass = class->theClass
-//  String subClass = class->subClass
+/*
+Opening the user inputs website
+  Inputs:
+    String theClass = class->theClass
+    String subClass = class->subClass
+    Bool group = if we have are trying to open a group.
+      -> if so, we don't care about subClass and just open all classes whose name == theClass
+*/
 void openWebsite(char *theClass, char *subClass, bool group) {
   class **allClasses = readFile();  // List of all of the classes
   for (int i = 1; i < allClasses[0]->len; i++) {

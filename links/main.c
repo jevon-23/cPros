@@ -2,14 +2,16 @@
 #include <stdlib.h>
 #include "Utils/Utils.h"
 
-// Checking arguments, and determing the command given to us
-// Inputs :
-//  argc = num input args from STDIN
-//  argv = the input arguments from STDIN
-//
-// outputs :
-//  int command : integer mapped to command, which is either
-//    init = 0, add = 1, open = 2, delete = 3, print = 4
+/*
+Checking arguments, and determing the command given to us
+  Inputs :
+    argc = num input args from STDIN
+    argv = the input arguments from STDIN
+
+  outputs :
+    int command : integer mapped to command, which is either
+      init = 0, add = 1, open = 2, delete = 3, print = 4
+*/
 int processCLI(int argc, char *argv[]) {
 
   if (argc == 2) {
@@ -17,7 +19,7 @@ int processCLI(int argc, char *argv[]) {
       return 0;
     } else if (strcmp(argv[1], "print") == 0) {     // If print
       return 6;
-    } else if (strcmp(argv[1], "help") == 0) {
+    } else if (strcmp(argv[1], "help") == 0) { // if help
       return 7;
     }
 
@@ -26,7 +28,7 @@ int processCLI(int argc, char *argv[]) {
 
   char *commands[5] = {"add", "open", "delete", "add+", "open+"};
 
-// add = 1, open = 2, delete = 3,
+// add = 1, open = 2, delete = 3, 4 = add+, 5 = open+
   for (int i = 0; i < 5; i++) {
     if (strcmp(argv[1], commands[i]) == 0) {
       checkInputLen(argv[1], argc, argv[2]);
@@ -55,16 +57,16 @@ int main(int arg, char *argv[]) {
       delete(argv[2], argv[3]); // delete
       break;
     case 4:
-      addGroup(argv[3], (argv + 4), atoi(argv[2]));  // ./main addGroup 3 startPack google.com reddit.com amazon.com
+      addGroup(argv[3], (argv + 4), atoi(argv[2]));  // add+
       break;
     case 5:
-      openWebsite(argv[2], "", true); // ./main openGroup startPack
+      openWebsite(argv[2], "", true); // open+
       break;
-    case 6: // print
-      printAllClasses();
+    case 6:
+      printAllClasses(); // Print
       break;
-    case 7: // help
-      printHelp();
+    case 7:
+      printHelp(); // Help
       break;
     default:
       printf("failing in main\n");
