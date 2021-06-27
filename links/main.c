@@ -48,7 +48,7 @@ int main(int arg, char *argv[]) {
       init();
       break;
     case 1: // Add
-      add(argv[2], argv[3], argv[4]);
+      add(argv[2], argv[3], argv[4] ,false);
       break;
     case 2: // Open
       openWebsite(argv[2], argv[3], false);

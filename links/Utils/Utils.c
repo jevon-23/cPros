@@ -69,7 +69,7 @@ void checkInputLen(char *theInput, int argc, char *numGroups) {
 
   if ((strcmp(theInput, "add") == 0 && argc != 5)
     || ((strcmp(theInput, "open") == 0 || (strcmp(theInput, "delete") == 0)) && argc != 4)
-    || ((strcmp(theInput, "addGroup") == 0 && atoi(numGroups) == 0))
+    || ((strcmp(theInput, "add+") == 0 && atoi(numGroups) == 0))
   ){
       // Basically if they pass in add open or delete but dont give the right amount of parameters
       // I could typecheck, but Im going to rely on user, and i am user lol
@@ -257,7 +257,7 @@ void addGroup(char *theClass, char **theLinks, int theLinksLen) {
   for (int i = 0; i < theLinksLen; i++) {
 
     sprintf(subClass, "%d", i);
-    add(theClass, subClass, *(theLinks+ i));
+    add(theClass, subClass, *(theLinks+ i), true);
 
   }
 }
@@ -270,7 +270,7 @@ void addGroup(char *theClass, char **theLinks, int theLinksLen) {
     String link = class->link (i.e. zoom.com)
     int fileSwitch = (0 = add) || (1 = delete),
 */
-void add(char *theClass, char *subClass, char *link) {
+void add(char *theClass, char *subClass, char *link, bool group) {
 
   class **allClasses = readFile();
   class *head = allClasses[0];  // head "node" will host the length.
@@ -280,7 +280,7 @@ void add(char *theClass, char *subClass, char *link) {
     if (strcmp(theClass, allClasses[i]->theClass) == 0 && (strcmp(subClass, allClasses[i]->subClass) == 0)) {
       error(4);
     }
-    if (strcmp(link, allClasses[i]->link) == 0) {
+    if (!group && strcmp(link, allClasses[i]->link) == 0) {
       error(5);
     }
   }

@@ -15,7 +15,7 @@ typedef struct class {
 
 class** readFile();
 void writeFile(class **allClasses);
-void add(char *theClass, char *subClass, char *link);
+void add(char *theClass, char *subClass, char *link, bool group);
 void addGroup(char *theClass, char **theLinks, int theLinksLen);
 void delete(char *theClass, char *subClass);
 void openWebsite(char *theClass, char *subClass, bool group);
