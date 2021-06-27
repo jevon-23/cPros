@@ -5,6 +5,7 @@
 #include<unistd.h>
 #include "commands.h"
 #include <sys/stat.h>
+
 int checkFile(int argc, char **argv, char **fileName) {
   char pointer[100];  // a copy of the filename that we will traverse through
   strcpy(pointer, *fileName);
@@ -36,7 +37,6 @@ void goStr(FILE *theFile, char **fileName) {
       fputc(goStrs[x][i], theFile);
     }
   }
-
 }
 // .py imports. As of right now only takes in pytorch
 void pyStr(FILE *theFile, int import) {
@@ -115,6 +115,7 @@ void rn(FILE *theFile) {
   }
 }
 
+// error
 void error(char *argv[]) {
   printf("usage: %s {filename}\n",argv[0]);
   printf("usage: %s {fileName} {pt/redux/rn} \n", argv[0]);

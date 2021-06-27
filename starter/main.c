@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -56,35 +55,27 @@ int main(int arg, char *argv[]) {
    case 0:
      // pyStr(theFile, import)
     break;
-
   case 1:
       javaStr(theFile, &file);  // java
       break;
-
   case 2:
       cStr(theFile); // c
       break;
-
   case 3:
     shStr(&file); // sh
     break;
-
   case 4:
     goStr(theFile, &file); // goLang
-
   // Imports
   case 100:
     pyStr(theFile, val); // pt
     break;
-
   case 101:
     redux(); // redux
     break;
-
   case 102:
     rn(theFile); // react-native
     break;
-
   default :
     error(argv);
 
