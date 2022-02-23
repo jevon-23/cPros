@@ -1,0 +1,191 @@
+SEARCH
+
+The idea is that we want to be able file/repo for a keyword / var / func.
+
+The idea is to create a map on how this keyword / var / func plays apart throughout your entire code
+
+I also want to be able to run each snippet on arguments in passed in. This will be similar to lldb and gdb, except we will maps of code vs. producing certain sections of our code
+
+ex.
+def random():
+  p = 2
+  return
+
+""" Helps out main by returning a value based on the input"""
+def help(val):
+  if (val == 3):
+    return 1
+  else:
+    return 0
+
+
+def main():
+  val = 4 // the value being pasesed in to help
+  help(val)
+  random()
+
+
+---------------- cli ---------------------
+
+//dir will start from CWD, and only go downwards, not upwards
+search dir
+
+/*
+Gathers all of the files that import this file, and this file as well.
+Don't want to go outside of this CWD because I don't really want to write a program that
+blindly goes through people's directories.
+*/
+search fileName
+
+
+/* Looking for the variable val. Returns all comments, and function snippets that involve val
+Also returns back how the variable is used throughout the program. In this program, val is first created in main, then passed -> help, used, -> main
+I want some way of signifying the VAR, maybe some way to color code like how lldb does
+*/
+>> var val
+
+
+
+def main():
+  val = 4
+  help(val)
+  random()
+       ^
+       |
+
+def help(val):
+  if (val == 3):
+    return 1
+  else:
+    return 0
+
+     ^
+     |
+def main():
+  val = 4
+  h2 = "i am missing"
+  help(val)
+  random()
+
+
+------------------------------------------------------
+/*
+Searches for a function. First returns the the function signature, then asks user if they would like to see its usage.
+Searching main should return back how the entire program runs. Each function call should have their own tree like above.
+Users will be given a prompt to either step in or step over like in debugger.
+*/
+>> func help
+
+help(val)
+
+Would you like to see the usage of the function in this program? [y/n]
+y
+
+// Will only return the creation and manipulation of variables that are used to in the func call, returns back the next line of code alongside the func call
+
+def main():
+  ...
+  help(val)
+  random()
+    ^
+    |
+
+def help(val):
+  if (val == 3):
+    return 1
+  else:
+    return 0
+
+    ^
+    |
+
+def main():
+  val = 4
+  ...
+  help(val)
+
+/*
+
+*/
+---------------------------------------------------------
+
+
+/* Searching for a keyword. Looking thruoghuot the entire file, both notes and code for this keyword, and returns how it is used in the program
+  Returns back function sign alongside the message that corresponds with it, asks if you would like to expand the function
+*/
+
+>> word value
+
+#would you like variables, functions, or comments (choose 1+)
+
+functions
+""" Helps out main by returning a value based on the input"""
+def help(val):
+
+
+#Expand the function? [y/n]
+y
+""" Helps out main by returning a value based on the input"""
+def help(val):
+  if (val == 3):
+    return 1
+  else:
+    return 0
+
+
+// If there are more functions,
+#next function, or switch to variables and/or comments?
+
+>> variables, comments
+//would list out max of 50 variables alongside comments
+
+val = 4 // the value being pasesed in to help
+
+#next page, funcs and/or comments
+
+>>comments
+// lists out comments alongside what line of code they are on
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What do we need? Going to make it only for c as of rn, probably make one in python after I make the one in c.
+
+
+
+//Finds all of the functions within the text
+void findFuncs()
+
+
+// Looks through the entire directory for the value that we are looking for
+void scanDirectory(String value)
+
+
+// Will read the text from the file, and put each line into its own index.
+void readFile()
